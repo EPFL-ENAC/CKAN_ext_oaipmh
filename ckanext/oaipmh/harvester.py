@@ -311,8 +311,8 @@ class OaipmhHarvester(HarvesterBase):
             # extract tags from 'type' and 'subject' field
             # everything else is added as extra field
             tags, extras = self._extract_tags_and_extras(content)
-            package_dict['tags'] = tags
-            package_dict['extras'] = extras
+            #package_dict['tags'] = tags
+            #package_dict['extras'] = extras
 
             # groups aka projects
             groups = []
@@ -332,7 +332,7 @@ class OaipmhHarvester(HarvesterBase):
                 self._extract_groups(content, context.copy())
             )
 
-            package_dict['groups'] = groups
+            #package_dict['groups'] = groups
 
             # allow sub-classes to add additional fields
             package_dict = self._extract_additional_fields(
