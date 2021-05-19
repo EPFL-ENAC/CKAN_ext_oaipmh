@@ -242,7 +242,7 @@ class OaipmhHarvester(HarvesterBase):
 
     def _after_record_fetch(self, record):
         log.info('Got Record : ')
-        log.info(str(record.__dict__))
+        log.info(str(record))
 
     def import_stage(self, harvest_object):
         '''
