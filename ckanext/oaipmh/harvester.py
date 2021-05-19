@@ -208,12 +208,12 @@ class OaipmhHarvester(HarvesterBase):
 
             try:
                 #content_dict = metadata.getMap()
-                #content_dict['set_spec'] = header.setSpec()
-                #if metadata_modified:
-                #    content_dict['metadata_modified'] = metadata_modified
-                #log.debug(content_dict)
-                #content = json.dumps(content_dict)
-                content = {}
+                content_dict = {}
+                content_dict['set_spec'] = header.setSpec()
+                if metadata_modified:
+                    content_dict['metadata_modified'] = metadata_modified
+                log.debug(content_dict)
+                content = json.dumps(content_dict)
             except:
                 log.exception('Dumping the metadata failed!')
                 self._save_object_error(
