@@ -207,7 +207,7 @@ class OaipmhHarvester(HarvesterBase):
                 metadata_modified = None
 
             try:
-                #content_dict = metadata.getMap()
+                content_dict = metadata.getMap()
                 content_dict = {}
                 content_dict['set_spec'] = header.setSpec()
                 if metadata_modified:
