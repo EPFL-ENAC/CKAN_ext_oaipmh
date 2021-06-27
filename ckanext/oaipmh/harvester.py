@@ -422,12 +422,13 @@ class OaipmhHarvester(HarvesterBase):
 
     def _get_possible_resource(self, harvest_obj, content):
         url = None
-        candidates = content['identifier']
-        candidates.append(harvest_obj.guid)
-        for ident in candidates:
-            if ident.startswith('http://') or ident.startswith('https://'):
-                url = ident
-                break
+        if 'identifier' in content:
+            candidates = content['identifier']
+            candidates.append(harvest_obj.guid)
+            for ident in candidates:
+                if ident.startswith('http://') or ident.startswith('https://'):
+                    url = ident
+                    break
         return url
 
     def _extract_resources(self, url, content):
