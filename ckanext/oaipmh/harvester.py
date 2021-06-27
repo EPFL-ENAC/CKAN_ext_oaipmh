@@ -383,7 +383,10 @@ class OaipmhHarvester(HarvesterBase):
 
 
     def _extract_license_id(self, content):
-        return ', '.join(content['rights'])
+        if 'rights' in content:
+            return ', '.join(content['rights'])
+        else:
+            return ''
 
     def _extract_tags_and_extras(self, content):
         extras = []
