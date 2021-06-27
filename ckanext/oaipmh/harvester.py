@@ -374,7 +374,13 @@ class OaipmhHarvester(HarvesterBase):
         }
 
     def _extract_author(self, content):
-        return ', '.join(content['creator'])
+        if 'creator' in content:
+            return ', '.join(content['creator'])
+        elif 'author' in content:
+            return ', '.join(content['author'])
+        else:
+            return ''
+
 
     def _extract_license_id(self, content):
         return ', '.join(content['rights'])
