@@ -279,7 +279,7 @@ class OaipmhHarvester(HarvesterBase):
 
             package_dict = {}
             content = json.loads(harvest_object.content)
-            log.debug(content)
+            log.info("Harvest content : "+str(content))
 
             package_dict['id'] = munge_title_to_name(harvest_object.guid)
             package_dict['name'] = package_dict['id']
