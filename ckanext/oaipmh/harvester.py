@@ -101,7 +101,7 @@ class OaipmhHarvester(HarvesterBase):
                 harvest_job
             )
             return None
-        log.debug(
+        log.info(
             "Gather stage successfully finished with %s harvest objects"
             % len(harvest_obj_ids)
         )
@@ -208,10 +208,10 @@ class OaipmhHarvester(HarvesterBase):
 
             try:
                 content_dict = metadata.getMap()
-                content_dict = {}
                 content_dict['set_spec'] = header.setSpec()
                 if metadata_modified:
                     content_dict['metadata_modified'] = metadata_modified
+                log.info('Content found during fetch : ')
                 log.info(content_dict)
                 content = json.dumps(content_dict)
             except:
