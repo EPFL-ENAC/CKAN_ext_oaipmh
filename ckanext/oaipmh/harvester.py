@@ -165,7 +165,7 @@ class OaipmhHarvester(HarvesterBase):
         :param harvest_object: HarvestObject object
         :returns: True if everything went right, False if errors were found
         '''
-        log.debug("in fetch stage: %s" % harvest_object.guid)
+        log.info("in fetch stage: %s" % harvest_object.guid)
         try:
             self._set_config(harvest_object.job.source.config)
             registry = self._create_metadata_registry()
@@ -177,7 +177,7 @@ class OaipmhHarvester(HarvesterBase):
             )
             record = None
             try:
-                log.debug(
+                log.info(
                     "Load %s with metadata prefix '%s'" %
                     (harvest_object.guid, self.md_format)
                 )
@@ -188,7 +188,7 @@ class OaipmhHarvester(HarvesterBase):
                     metadataPrefix=self.md_format
                 )
                 self._after_record_fetch(record)
-                log.debug('record found!')
+                log.info('record found!')
             except:
                 log.exception('getRecord failed for %s' % harvest_object.guid)
                 self._save_object_error(
@@ -198,8 +198,8 @@ class OaipmhHarvester(HarvesterBase):
                 return False
 
             header, metadata, _ = record
-            log.debug('metadata %s' % metadata)
-            log.debug('header %s' % header)
+            log.info('metadata %s' % metadata)
+            log.info('header %s' % header)
 
             try:
                 metadata_modified = header.datestamp().isoformat()
@@ -212,10 +212,10 @@ class OaipmhHarvester(HarvesterBase):
                 content_dict['set_spec'] = header.setSpec()
                 if metadata_modified:
                     content_dict['metadata_modified'] = metadata_modified
-                log.debug(content_dict)
+                log.info(content_dict)
                 content = json.dumps(content_dict)
             except:
-                log.exception('Dumping the metadata failed!')
+                log.info('Dumping the metadata failed!')
                 self._save_object_error(
                     'Dumping the metadata failed!',
                     harvest_object
@@ -225,6 +225,7 @@ class OaipmhHarvester(HarvesterBase):
             harvest_object.content = content
             harvest_object.save()
         except Exception as e:
+            log.info("Exception in fetch stage")
             log.exception(e)
             self._save_object_error(
                 (
@@ -241,8 +242,7 @@ class OaipmhHarvester(HarvesterBase):
         pass
 
     def _after_record_fetch(self, record):
-        log.info('Got Record : ')
-        log.info(str(record))
+        pass
 
     def import_stage(self, harvest_object):
         '''
@@ -262,7 +262,7 @@ class OaipmhHarvester(HarvesterBase):
         :returns: True if everything went right, False if errors were found
         '''
 
-        log.debug("in import stage: %s" % harvest_object.guid)
+        log.info("in import stage: %s" % harvest_object.guid)
         if not harvest_object:
             log.error('No harvest object received')
             self._save_object_error('No harvest object received')
@@ -279,7 +279,7 @@ class OaipmhHarvester(HarvesterBase):
 
             package_dict = {}
             content = json.loads(harvest_object.content)
-            log.info("Harvest content : "+str(content))
+            log.info("Harvest content : "+str(harvest_object))
 
             package_dict['id'] = munge_title_to_name(harvest_object.guid)
             package_dict['name'] = package_dict['id']
